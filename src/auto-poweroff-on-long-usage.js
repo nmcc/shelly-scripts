@@ -9,20 +9,6 @@
  * This script was tested with Shelly PlugS Gen3, but should work with any Shelly 
  * device that reports power consumption.
  * 
- * LICENSE:
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
- * 
  * Copyright (C) 2026 Nuno Caneco
  */
 
@@ -48,7 +34,7 @@ Shelly.addStatusHandler(function (event) {
        device_off_timer_handler = Timer.set(
          CONFIG.TIMEOUT_IN_SECONDS * 1000,
          false,
-         turn_it_off); 
+         turnItOff); 
          
        print("Activated timer to check power in " + CONFIG.TIMEOUT_IN_SECONDS + " seconds");
     } else if (last_apower > 0 && event.delta.apower == 0) {
@@ -63,11 +49,11 @@ Shelly.addStatusHandler(function (event) {
   }
 });
 
-function turn_it_off() {
+function turnItOff() {
   Shelly.call("Switch.set", {'id': 0, 'on': false});
   print("Device turned OFF automatically due to long usage");
   
-  sendNotification(NOTIFICATION_TITLE, NOTIFICATION_MESSAGE);
+  sendNotification(CONFIG.NOTIFICATION_TITLE, CONFIG.NOTIFICATION_MESSAGE);
 };
 
 // Function to send notification
